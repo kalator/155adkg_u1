@@ -22,8 +22,9 @@ void Draw::paintEvent(QPaintEvent *e)
     //Start drawing
     painter.begin(this);
 
-    //Draw q
-    painter.drawEllipse(q.x()-5, q.y()-5, 10, 10);
+    //set pen
+    QPen pen(Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter.setPen(pen);
 
     //set scale
     // painter.scale(scale, scale);
@@ -53,16 +54,19 @@ void Draw::paintEvent(QPaintEvent *e)
         }
     }
 
-    //fill polygon with colour
-    QBrush brush;
-    brush.setColor(Qt::red);
-    brush.setStyle(Qt::DiagCrossPattern);
-    QPainterPath path;
-
-    qDebug() << poly_to_fill << "tata";
+    //fill polygon with color
     if(poly_to_fill > -1)
     {
-        qDebug() << poly_to_fill << "ratata";
+        //set pen
+        QPen pen2(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+        painter.setPen(pen2);
+
+        //set fill color and style
+        QBrush brush;
+        brush.setColor(Qt::green);
+        brush.setStyle(Qt::SolidPattern);
+        QPainterPath path;
+
         QPolygonF poly;
         std::vector<QPointF> p = poly_pol[poly_to_fill];
         for(unsigned i = 0; i < p.size(); i++)
@@ -73,6 +77,12 @@ void Draw::paintEvent(QPaintEvent *e)
         painter.drawPolygon(poly);
         painter.fillPath(path, brush);
     }
+
+    //set pen back to normal (for drawing of point q)
+    painter.setPen(pen);
+
+    //Draw q
+    painter.drawEllipse(q.x()-5, q.y()-5, 10, 10);
 
     painter.end();
 }

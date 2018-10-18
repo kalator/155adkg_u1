@@ -36,11 +36,9 @@ void Widget::on_pushButton_2_clicked()
         std::vector<QPointF> pol = ui->canvas->getPol(polygon_count); //getting polygons backwards, but that doesn't matter
         results[polygon_count] = Algorithms::getPositionRay(q, pol);
         if(results[polygon_count])
-        {
-            qDebug() << polygon_count << "tutu";
             ui->canvas->fillPolygon(polygon_count);
-        }
     }
+
     delete results;
 
   /*  if(res)
