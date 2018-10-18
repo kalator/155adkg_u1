@@ -21,16 +21,34 @@ void Widget::on_pushButton_3_clicked()
 
 void Widget::on_pushButton_2_clicked()
 {
+    //set off filling of the polygon containing point q
+    ui->canvas->fillPolygon(-1);
+
     //Analyze point and polygon position
-    QPoint q = ui->canvas->getQ();
-    std::vector<QPointF> pol = ui->canvas->getPolygon();
-    int res = Algorithms::getPositionRay(q, pol);
-    if(res)
+    QPointF q = ui->canvas->getQ();
+
+    //get polygons one by one
+    int polygon_count = ui->canvas->getNumberOfPolygons();
+    int *results = new int[polygon_count];
+
+    while(polygon_count--)
+    {
+        std::vector<QPointF> pol = ui->canvas->getPol(polygon_count); //getting polygons backwards, but that doesn't matter
+        results[polygon_count] = Algorithms::getPositionRay(q, pol);
+        if(results[polygon_count])
+        {
+            qDebug() << polygon_count << "tutu";
+            ui->canvas->fillPolygon(polygon_count);
+        }
+    }
+    delete results;
+
+  /*  if(res)
         ui->result->setText("Inside");
     else if(!res)
         ui->result->setText("Outside");
     else
-        ui->result->setText("Boundary");
+        ui->result->setText("Boundary");*/
 }
 
 void Widget::on_pushButton_4_clicked()

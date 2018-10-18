@@ -4,6 +4,8 @@ Draw::Draw(QWidget *parent) : QWidget(parent)
 {
     q.setX(-5);
     q.setY(-5);
+    poly_to_fill = -1;
+
     /*
     x_min = std::numeric_limits<qreal>::max();
     y_min = std::numeric_limits<qreal>::max();
@@ -51,6 +53,27 @@ void Draw::paintEvent(QPaintEvent *e)
         }
     }
 
+    //fill polygon with colour
+    QBrush brush;
+    brush.setColor(Qt::red);
+    brush.setStyle(Qt::DiagCrossPattern);
+    QPainterPath path;
+
+    qDebug() << poly_to_fill << "tata";
+    if(poly_to_fill > -1)
+    {
+        qDebug() << poly_to_fill << "ratata";
+        QPolygonF poly;
+        std::vector<QPointF> p = poly_pol[poly_to_fill];
+        for(unsigned i = 0; i < p.size(); i++)
+        {
+            poly << p[i];
+        }
+        path.addPolygon(poly);
+        painter.drawPolygon(poly);
+        painter.fillPath(path, brush);
+    }
+
     painter.end();
 }
 
@@ -67,6 +90,7 @@ void Draw::clearCanvas()
     pol.clear();
     q.setX(-5);
     q.setY(-5);
+    poly_to_fill = -1;
     repaint();
 }
 
@@ -142,6 +166,17 @@ bool Draw::loadPolygon(std::string &path, QString &msg, QSize canvas_size)
     */
 
     return 1;
+}
+
+std::vector<QPointF> Draw::getPol(int pol)
+{
+    return poly_pol[pol];
+}
+
+void Draw::fillPolygon(int pol)
+{
+    this->poly_to_fill = pol;
+    repaint();
 }
 
 /*
