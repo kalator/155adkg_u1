@@ -2,9 +2,8 @@
 
 Draw::Draw(QWidget *parent) : QWidget(parent)
 {
-    q.setX(-5);
-    q.setY(-5);
-    poly_to_fill = -1;
+    q.setX(120.3);
+    q.setY(20.1);
 
     /*
     x_min = std::numeric_limits<qreal>::max();
@@ -55,27 +54,32 @@ void Draw::paintEvent(QPaintEvent *e)
     }
 
     //fill polygon with color
-    if(poly_to_fill > -1)
+    //set pen
+    QPen pen2(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter.setPen(pen2);
+
+    //set fill color and style
+    QBrush brush;
+    brush.setColor(Qt::green);
+    brush.setStyle(Qt::CrossPattern);
+    QPainterPath path;
+
+    QPolygonF poly;
+
+    for(unsigned i = 0; i < analysis_results.size(); i++)
     {
-        //set pen
-        QPen pen2(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-        painter.setPen(pen2);
-
-        //set fill color and style
-        QBrush brush;
-        brush.setColor(Qt::green);
-        brush.setStyle(Qt::SolidPattern);
-        QPainterPath path;
-
-        QPolygonF poly;
-        std::vector<QPointF> p = poly_pol[poly_to_fill];
-        for(unsigned i = 0; i < p.size(); i++)
+        if(analysis_results[i])
         {
-            poly << p[i];
+            qDebug() << "Drawing polygon number " << i;
+            std::vector<QPointF> pol_to_fill = poly_pol[i];
+            for(unsigned l = 0; l < pol_to_fill.size(); l++)
+            {
+                poly << pol_to_fill[l];
+            }
+            path.addPolygon(poly);
+            painter.drawPolygon(poly);
+            painter.fillPath(path, brush);
         }
-        path.addPolygon(poly);
-        painter.drawPolygon(poly);
-        painter.fillPath(path, brush);
     }
 
     //set pen back to normal (for drawing of point q)
@@ -100,7 +104,7 @@ void Draw::clearCanvas()
     pol.clear();
     q.setX(-5);
     q.setY(-5);
-    poly_to_fill = -1;
+    analysis_results.clear();
     repaint();
 }
 
@@ -183,9 +187,13 @@ std::vector<QPointF> Draw::getPol(int pol)
     return poly_pol[pol];
 }
 
-void Draw::fillPolygon(int pol)
+void Draw::fillPolygon(std::vector<int> analysis_results)
 {
-    this->poly_to_fill = pol;
+    this->analysis_results = analysis_results;
+    for(unsigned i = 0; i < analysis_results.size(); i++)
+    {
+        qDebug() << "Result " << i << " is " << analysis_results[i];
+    }
     repaint();
 }
 

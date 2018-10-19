@@ -21,32 +21,44 @@ void Widget::on_pushButton_3_clicked()
 
 void Widget::on_pushButton_2_clicked()
 {
-    //set off filling of the polygon containing point q
-    ui->canvas->fillPolygon(-1);
-
+    qDebug() << "Analyze clicked!";
     //Analyze point and polygon position
     QPointF q = ui->canvas->getQ();
 
     //get polygons one by one
     int polygon_count = ui->canvas->getNumberOfPolygons();
-    int *results = new int[polygon_count];
+    std::vector<int> results;
+    //set off filling of the polygon containing point q
 
-    while(polygon_count--)
+    //ui->canvas->fillPolygon(results, false);
+
+    //use algorithm according to user choice
+
+ /*   //Ray algorithm
+    if(ui->comboBox->currentIndex())
     {
-        std::vector<QPointF> pol = ui->canvas->getPol(polygon_count); //getting polygons backwards, but that doesn't matter
-        results[polygon_count] = Algorithms::getPositionRay(q, pol);
-        if(results[polygon_count])
-            ui->canvas->fillPolygon(polygon_count);
+        while(polygon_count--)
+        {
+            std::vector<QPointF> pol = ui->canvas->getPol(polygon_count); //getting polygons backwards, but that doesn't matter
+            results[polygon_count] = Algorithms::getPositionRay(q, pol);
+            if(results[polygon_count])
+                ui->canvas->fillPolygon(polygon_count, true);
+        }
     }
-
-    delete results;
-
-  /*  if(res)
-        ui->result->setText("Inside");
-    else if(!res)
-        ui->result->setText("Outside");
-    else
-        ui->result->setText("Boundary");*/
+ */
+    //Winding algorithm
+    //else
+    {
+        for(unsigned k = 0; k < polygon_count; k++)
+        {
+            std::vector<QPointF> pol = ui->canvas->getPol(k);
+            results.push_back(Algorithms::getPositionWinding(q, pol)); //adding next result in front of previous one
+            qDebug() << "Tolikaty polygon: " << polygon_count;
+            qDebug() << "Result of " << polygon_count << ". polygon is " << results[0];
+        }
+        ui->canvas->fillPolygon(results);
+    }
+    results.clear();
 }
 
 void Widget::on_pushButton_4_clicked()

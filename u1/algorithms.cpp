@@ -56,29 +56,50 @@ int Algorithms::getPositionWinding(QPointF q, std::vector<QPointF> pol)
 
         //compute angle
         double angle = getTwoVectorsAngle(q.x(), q.y(), xir, yir, q.x(), q.y(), xiir, yiir);
+        qDebug() << "angle is: " << angle;
 
         //if Q is in the left half plane
-        if(getPointLinePosition(q.x(), q.y(), xir, yir, xiir, yiir))
+        if(getPointLinePosition(q.x(), q.y(), xir, yir, xiir, yiir) == 1)
+        {
+            qDebug() << "adding angle";
+
             sum_angle += angle;
-        else
+        }
+        else if(getPointLinePosition(q.x(), q.y(), xir, yir, xiir, yiir) == 0)
+        {
+            qDebug() << "subtracking angle";
             sum_angle -= angle;
+        }
+        else
+        {
+            qDebug() << "nothing added to the angle";
+        }
 
         //assign coordinates
         xir = xiir;
         yir = yiir;
     }
+    qDebug() << "sum_angle is: " << sum_angle;
 
     //point is inside of the polygon
     if(fabs(sum_angle - 360) < eps)
+    {
+        qDebug() << "returning 1 from winding" << (sum_angle-360);
         return 1;
+    }
 
     //point is outside of the polygon
     else if(fabs(sum_angle) < eps)
+    {
+        qDebug() << "returning 0 from winding";
         return 0;
-
+    }
     //point is on the boundary of the polygon
     else
+    {
+        qDebug() << "returning -1 from winding";
         return -1;
+    }
 }
 
 int Algorithms::getPointLinePosition(double x, double y, double x1, double y1, double x2, double y2)
@@ -95,11 +116,11 @@ int Algorithms::getPointLinePosition(double x, double y, double x1, double y1, d
     double t = ux*vy - uy*vx;
 
     //point on the line - return -1
-    if(fabs(t)<eps)
+    if(fabs(t) < eps)
         return -1;
 
     //point in the left halfplane
-    else if(fabs(t) > 0)
+    else if(t < 0)
         return 1;
 
     //point in the right halfplane
