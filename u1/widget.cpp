@@ -34,27 +34,25 @@ void Widget::on_pushButton_2_clicked()
 
     //use algorithm according to user choice
 
- /*   //Ray algorithm
+    //Ray algorithm
     if(ui->comboBox->currentIndex())
-    {
-        while(polygon_count--)
-        {
-            std::vector<QPointF> pol = ui->canvas->getPol(polygon_count); //getting polygons backwards, but that doesn't matter
-            results[polygon_count] = Algorithms::getPositionRay(q, pol);
-            if(results[polygon_count])
-                ui->canvas->fillPolygon(polygon_count, true);
-        }
-    }
- */
-    //Winding algorithm
-    //else
     {
         for(unsigned k = 0; k < polygon_count; k++)
         {
             std::vector<QPointF> pol = ui->canvas->getPol(k);
-            results.push_back(Algorithms::getPositionWinding(q, pol)); //adding next result in front of previous one
-            qDebug() << "Tolikaty polygon: " << polygon_count;
-            qDebug() << "Result of " << polygon_count << ". polygon is " << results[0];
+            qDebug() << Algorithms::getPositionRay(q, pol) << " is result";
+            results.push_back(Algorithms::getPositionRay(q, pol));
+        }
+        ui->canvas->fillPolygon(results);
+    }
+
+    //Winding algorithm
+    else
+    {
+        for(unsigned k = 0; k < polygon_count; k++)
+        {
+            std::vector<QPointF> pol = ui->canvas->getPol(k);
+            results.push_back(Algorithms::getPositionWinding(q, pol));
         }
         ui->canvas->fillPolygon(results);
     }
@@ -87,3 +85,9 @@ void Widget::on_pushButton_4_clicked()
 }
 
 
+
+void Widget::on_set_coords_button_clicked()
+{
+    bool b = 0;
+    ui->canvas->setPointCoords(ui->set_x->text().toDouble(&b), ui->set_y->text().toDouble(&b));
+}

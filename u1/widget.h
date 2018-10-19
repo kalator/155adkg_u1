@@ -27,6 +27,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_set_coords_button_clicked();
+
 private:
     Ui::Widget *ui;
 };

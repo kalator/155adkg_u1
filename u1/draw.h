@@ -37,6 +37,7 @@ public:
     QPointF getQ() {return q;}
     std::vector<QPointF> getPol(int pol);
     int getNumberOfPolygons() {return poly_pol.size();}
+    void setPointCoords(double x, double y);
 
 signals:
 

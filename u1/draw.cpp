@@ -2,8 +2,8 @@
 
 Draw::Draw(QWidget *parent) : QWidget(parent)
 {
-    q.setX(120.3);
-    q.setY(20.1);
+    q.setX(-5);
+    q.setY(-5);
 
     /*
     x_min = std::numeric_limits<qreal>::max();
@@ -19,7 +19,7 @@ void Draw::paintEvent(QPaintEvent *e)
     QPainter painter(this);
 
     //Start drawing
-    painter.begin(this);
+   // painter.begin(this);
 
     //set pen
     QPen pen(Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -47,10 +47,15 @@ void Draw::paintEvent(QPaintEvent *e)
         painter.drawPolygon(p);
     }
 
+    //Draw q
+    painter.drawEllipse(q.x()-5, q.y()-5, 10, 10);
+
+    //painter.end();
+
     //fill polygon with color
     //set pen
-    QPen pen2(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-    painter.setPen(pen2);
+    QPen pen_fill(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    painter.setPen(pen_fill);
 
     //set fill color and style
     QBrush brush;
@@ -73,22 +78,20 @@ void Draw::paintEvent(QPaintEvent *e)
             path.addPolygon(poly);
             painter.drawPolygon(poly);
             painter.fillPath(path, brush);
+            poly.clear();
         }
     }
-
-    //set pen back to normal (for drawing of point q)
-    painter.setPen(pen);
-
-    //Draw q
-    painter.drawEllipse(q.x()-5, q.y()-5, 10, 10);
-
-    painter.end();
 }
 
 void Draw::mousePressEvent(QMouseEvent *e)
 {
-    q.setX(e->x());
-    q.setY(e->y());
+    setPointCoords(e->x(), e->y());
+}
+
+void Draw::setPointCoords(double x, double y)
+{
+    q.setX(x);
+    q.setY(y);
     repaint();
 }
 
@@ -164,6 +167,7 @@ bool Draw::loadPolygon(std::string &path, QString &msg, QSize canvas_size)
         poly_pol.push_back(one_poly);
         one_poly.clear();
     }
+
 
     poly_file.close();
 
