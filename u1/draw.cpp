@@ -45,12 +45,6 @@ void Draw::paintEvent(QPaintEvent *e)
 
         //Draw polygon
         painter.drawPolygon(p);
-
-        //Draw points
-        for(unsigned int i = 0; i < current_pol.size(); i++)
-        {
-            painter.drawEllipse(current_pol[i].x()-5, current_pol[i].y()-5, 10, 10);
-        }
     }
 
     //fill polygon with color
