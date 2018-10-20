@@ -17,6 +17,7 @@ Widget::~Widget()
 void Widget::on_pushButton_3_clicked()
 {
     ui->canvas->clearCanvas();
+    ui->result->setText("");
 }
 
 void Widget::on_pushButton_2_clicked()
@@ -28,9 +29,8 @@ void Widget::on_pushButton_2_clicked()
     //get polygons one by one
     int polygon_count = ui->canvas->getNumberOfPolygons();
     std::vector<int> results;
-    //set off filling of the polygon containing point q
 
-    //ui->canvas->fillPolygon(results, false);
+    bool write_result = true;
 
     //use algorithm according to user choice
 
@@ -53,6 +53,22 @@ void Widget::on_pushButton_2_clicked()
         {
             std::vector<QPointF> pol = ui->canvas->getPol(k);
             results.push_back(Algorithms::getPositionWinding(q, pol));
+
+            //send to output wheather point is in/out/on the boundari(es)
+            if(results[k] == 1 && write_result)
+            {
+                ui->result->setText("Point is in polygon.");
+                write_result = false;
+            }
+            else if(results[k] == 0 && write_result)
+            {
+                ui->result->setText("Point is out.");
+            }
+            else if(results[k] == -1 && write_result)
+            {
+                ui->result->setText("Point on boundary.");
+                write_result = false;
+            }
         }
         ui->canvas->fillPolygon(results);
     }
