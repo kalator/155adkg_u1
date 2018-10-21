@@ -30,6 +30,7 @@ void Widget::on_pushButton_2_clicked()
     int polygon_count = ui->canvas->getNumberOfPolygons();
     std::vector<int> results;
 
+    //flag for setting output (if point is inside/outside/on boundary)
     bool write_result = true;
 
     //use algorithm according to user choice
@@ -42,6 +43,9 @@ void Widget::on_pushButton_2_clicked()
             std::vector<QPointF> pol = ui->canvas->getPol(k);
             qDebug() << Algorithms::getPositionRay(q, pol) << " is result";
             results.push_back(Algorithms::getPositionRay(q, pol));
+
+            //send to output wheather point is in/out/on the boundari(es)
+            analysisResult(results[k], write_result);
         }
         ui->canvas->fillPolygon(results);
     }
@@ -55,20 +59,7 @@ void Widget::on_pushButton_2_clicked()
             results.push_back(Algorithms::getPositionWinding(q, pol));
 
             //send to output wheather point is in/out/on the boundari(es)
-            if(results[k] == 1 && write_result)
-            {
-                ui->result->setText("Point is in polygon.");
-                write_result = false;
-            }
-            else if(results[k] == 0 && write_result)
-            {
-                ui->result->setText("Point is out.");
-            }
-            else if(results[k] == -1 && write_result)
-            {
-                ui->result->setText("Point on boundary.");
-                write_result = false;
-            }
+            analysisResult(results[k], write_result);
         }
         ui->canvas->fillPolygon(results);
     }
@@ -106,4 +97,23 @@ void Widget::on_set_coords_button_clicked()
 {
     bool b = 0;
     ui->canvas->setPointCoords(ui->set_x->text().toDouble(&b), ui->set_y->text().toDouble(&b));
+}
+
+void Widget::analysisResult(int result, bool &write_result)
+{
+    //send to output wheather point is in/out/on the boundari(es)
+    if(result == 1 && write_result)
+    {
+        ui->result->setText("Point is in polygon.");
+        write_result = false; // I do not want to check that anymore, bcs I know already
+    }
+    else if(result == 0 && write_result)
+    {
+        ui->result->setText("Point is out.");
+    }
+    else if(result == -1 && write_result)
+    {
+        ui->result->setText("Point on boundary.");
+        write_result = false;
+    }
 }

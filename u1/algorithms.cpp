@@ -15,9 +15,28 @@ int Algorithms::getPositionRay(QPointF q, std::vector<QPointF> pol)
 
     for(int i=1; i < n+1; i++)
     {
+
+
         //reduce coordinates
         double xiir = pol[i%n].x() - q.x();
         double yiir = pol[i%n].y() - q.y();
+
+        //get distance between [xi, yi] [xii, yii]
+        double dist_i_ii = sqrt((xir - xiir)*(xir - xiir) + (yir - yiir)*(yir - yiir));
+
+        //get the addition of distance between [xi, yi] and q, and [xiir, yiir] and q
+        double dist_q = sqrt((xir*xir + yir*yir)) + sqrt((xiir*xiir + yiir*yiir));
+
+        double eps = 1.0e-10;
+
+        qDebug() << dist_i_ii <<" a " << dist_q << " je vzdalenost u polydonu " << i-1;
+
+        if(fabs(dist_i_ii-dist_q) < eps)
+        {
+            return -1;
+        }
+
+
 
         //upper halfplane
         if((yiir>0) && (yir<=0) || (yir>0) && (yiir<=0))
@@ -35,6 +54,8 @@ int Algorithms::getPositionRay(QPointF q, std::vector<QPointF> pol)
 
     }
 
+    //0 - point is outside
+    //1 - point is inside
     return k%2;
 }
 
