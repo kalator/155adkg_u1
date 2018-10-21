@@ -45,7 +45,7 @@ void Widget::on_analyze_button_clicked()
             results.push_back(Algorithms::getPositionRay(q, pol));
 
             //send to output wheather point is in/out/on the boundari(es)
-            analysisResult(results[k], write_result);
+            writeAnalysisResult(results[k], write_result);
 
             //we do not have to continue analyzing when point q is foung lying inside of one of polygons
             if(results[k] == 1)
@@ -70,7 +70,7 @@ void Widget::on_analyze_button_clicked()
             results.push_back(Algorithms::getPositionWinding(q, pol));
 
             //send to output wheather point is in/out/on the boundari(es)
-            analysisResult(results[k], write_result);
+            writeAnalysisResult(results[k], write_result);
 
             //we do not have to continue analyzing when point q is foung lying inside of one of polygons
             if(results[k] == 1)
@@ -87,28 +87,24 @@ void Widget::on_analyze_button_clicked()
 
 void Widget::on_load_button_clicked()
 {
+    //get path to directory upper of build
+    QDir current_path = QDir::currentPath();
+    current_path.cdUp();
+    QString path = current_path.path();
+
     //open file dialog
     QString poly_path = QFileDialog::getOpenFileName(
                 this,
                 tr("Select file"),
-                "/",
+                path,
                 "Text file (*.txt);;All files (*.*)");
 
     //convert path from QString to string (change coding to utf8 for ifstream)
     std::string poly_path_utf8 = poly_path.toUtf8().constData();
 
     //create message telling whether file was loaded correctly (or if file is valid)
-    QString msg;
-
-    if(ui->canvas->loadPolygon(poly_path_utf8, msg)) //load polygon and get load message
-    {
-        ui->loaded->setText(msg); //loaded correctly
-    }
-    else
-    {
-        ui->loaded->setText(msg); //not loaded (some error)
-    }
-
+    QString msg = ui->canvas->loadPolygon(poly_path_utf8); //load polygon and get load message
+    ui->loaded->setText(msg); //write load message
 }
 
 void Widget::on_set_coords_button_clicked()
@@ -122,7 +118,7 @@ void Widget::on_set_coords_button_clicked()
     ui->canvas->setPointCoords(ui->set_x->text().toDouble(), ui->set_y->text().toDouble());
 }
 
-void Widget::analysisResult(int result, bool &write_result)
+void Widget::writeAnalysisResult(int result, bool &write_result)
 {
     //send to output wheather point is in/out/on the boundari(es)
 

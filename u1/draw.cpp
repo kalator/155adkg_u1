@@ -97,7 +97,7 @@ void Draw::clearCanvas()
     repaint();
 }
 
-bool Draw::loadPolygon(std::string &path, QString &msg)
+QString Draw::loadPolygon(std::string path)
 {
     std::ifstream poly_file;
     poly_file.open(path);
@@ -106,8 +106,7 @@ bool Draw::loadPolygon(std::string &path, QString &msg)
     if(!poly_file.is_open())
     {
         poly_file.close();
-        msg = "Couldn't load file.";
-        return 0;
+        return "Couldn't load file.";
     }
 
     //get number of polygons
@@ -117,9 +116,8 @@ bool Draw::loadPolygon(std::string &path, QString &msg)
     //check whether no_of_poly is greater then 0
     if(no_of_poly < 1)
     {
-        msg = "No polygon found.";
         poly_file.close();
-        return 0;
+        return "No polygon found.";
     }
 
     //declare number of points variable
@@ -137,10 +135,9 @@ bool Draw::loadPolygon(std::string &path, QString &msg)
         //check for invalid polygons
         if(no_of_points < 3)
         {
-            msg = "Polygon with less then  \r\n3 vertices detected!";
             poly_file.close();
             poly_pol.clear(); //clear points that were added so far
-            return 0;
+            return "Polygon with less then  \r\n3 vertices detected!";
         }
 
         //go through points of one polygon, save it into one_poly
@@ -161,8 +158,7 @@ bool Draw::loadPolygon(std::string &path, QString &msg)
 
     poly_file.close();
 
-    msg = "Success!";
-    return 1;
+    return "Success!";
 }
 
 std::vector<QPointF> Draw::getPol(int index)

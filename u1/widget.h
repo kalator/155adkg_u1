@@ -19,7 +19,7 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
-    void analysisResult(int result, bool &write_result);
+    void writeAnalysisResult(int result, bool &write_result);
 
 private slots:
     void on_clear_button_clicked();

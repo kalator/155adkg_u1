@@ -26,6 +26,7 @@ int Algorithms::getPositionRay(QPointF q, std::vector<QPointF> pol)
         //get the addition of distance between [xi, yi] and q, and [xiir, yiir] and q
         double dist_q = sqrt((xir*xir + yir*yir)) + sqrt((xiir*xiir + yiir*yiir));
 
+        //check whether point is on boundary
         if(fabs(dist_i_ii-dist_q) < eps)
         {
             return -1;
