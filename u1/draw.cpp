@@ -47,11 +47,6 @@ void Draw::paintEvent(QPaintEvent *e)
         painter.drawPolygon(p);
     }
 
-    //Draw q
-    painter.drawEllipse(q.x()-5, q.y()-5, 10, 10);
-
-    //painter.end();
-
     //fill polygon with color
     //set pen
     QPen pen_fill(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -81,6 +76,10 @@ void Draw::paintEvent(QPaintEvent *e)
             poly.clear();
         }
     }
+
+    //Draw q
+    painter.setPen(pen);
+    painter.drawEllipse(q.x()-5, q.y()-5, 10, 10);
 }
 
 void Draw::mousePressEvent(QMouseEvent *e)
