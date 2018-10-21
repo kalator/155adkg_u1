@@ -22,18 +22,14 @@ private:
     std::vector<QPoint> pol;
     std::vector<std::vector<QPointF>> poly_pol;
     std::vector<int> analysis_results;
-   // qreal x_min, y_min, x_max, y_max;
-   // qreal scale;
 
 public:
     explicit Draw(QWidget *parent = nullptr);
     void paintEvent(QPaintEvent *e);
     void mousePressEvent(QMouseEvent *e);
     void fillPolygon(std::vector<int> analysis_results);
-   // void resizeEvent(QResizeEvent *e);
     void clearCanvas();
     bool loadPolygon(std::string &path, QString &msg, QSize canvas_size);
-    //void setMinMax(qreal x, qreal y);
     QPointF getQ() {return q;}
     std::vector<QPointF> getPol(int pol);
     int getNumberOfPolygons() {return poly_pol.size();}

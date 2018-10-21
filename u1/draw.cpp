@@ -4,30 +4,16 @@ Draw::Draw(QWidget *parent) : QWidget(parent)
 {
     q.setX(-5);
     q.setY(-5);
-
-    /*
-    x_min = std::numeric_limits<qreal>::max();
-    y_min = std::numeric_limits<qreal>::max();
-    x_max = std::numeric_limits<qreal>::min();
-    y_max = std::numeric_limits<qreal>::min();
-    */
 }
 
 void Draw::paintEvent(QPaintEvent *e)
 {
-    //Draw polygon and point
+    //Draw polygon and point, with this constructor, begin/end does not have to be called
     QPainter painter(this);
-
-    //Start drawing
-   // painter.begin(this);
 
     //set pen
     QPen pen(Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     painter.setPen(pen);
-
-    //set scale
-    // painter.scale(scale, scale);
-    //painter.translate(10,10);
 
     for(unsigned j = 0; j < poly_pol.size(); j++)
     {
@@ -47,6 +33,9 @@ void Draw::paintEvent(QPaintEvent *e)
         painter.drawPolygon(p);
     }
 
+    //Draw q
+    painter.drawEllipse(q.x()-5, q.y()-5, 10, 10);
+
     //fill polygon with color
     //set pen
     QPen pen_fill(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -64,7 +53,6 @@ void Draw::paintEvent(QPaintEvent *e)
     {
         if(analysis_results[i])
         {
-            qDebug() << "Drawing polygon number " << i;
             std::vector<QPointF> pol_to_fill = poly_pol[i];
             for(unsigned l = 0; l < pol_to_fill.size(); l++)
             {
@@ -76,10 +64,6 @@ void Draw::paintEvent(QPaintEvent *e)
             poly.clear();
         }
     }
-
-    //Draw q
-    painter.setPen(pen);
-    painter.drawEllipse(q.x()-5, q.y()-5, 10, 10);
 }
 
 void Draw::mousePressEvent(QMouseEvent *e)
@@ -155,26 +139,13 @@ bool Draw::loadPolygon(std::string &path, QString &msg, QSize canvas_size)
             bod.setX(bod_x);
             bod.setY(bod_y);
             one_poly.push_back(bod);
-
-            /*
-            //check for max/min x/y for resize
-            setMinMax(bod_x, bod_y);
-            */
-
         }
 
         poly_pol.push_back(one_poly);
         one_poly.clear();
     }
 
-
     poly_file.close();
-
-    /*
-    //get scale
-    (x_max - x_min) > (y_max - y_min) ? scale = (x_max - x_min): scale = (y_max - y_min);
-    scale = canvas_size.height()/scale;
-    */
 
     return 1;
 }
@@ -187,27 +158,5 @@ std::vector<QPointF> Draw::getPol(int pol)
 void Draw::fillPolygon(std::vector<int> analysis_results)
 {
     this->analysis_results = analysis_results;
-    for(unsigned i = 0; i < analysis_results.size(); i++)
-    {
-        qDebug() << "Result " << i << " is " << analysis_results[i];
-    }
     repaint();
 }
-
-/*
-void Draw::setMinMax(qreal x, qreal y)
-{
-    if(x > x_max) x_max = x;
-
-    if(x < x_min) x_min = x;
-
-    if(y > y_max) y_max = y;
-
-    if(y < y_min) y_min = y;
-}
-
-void Draw::resizeEvent(QResizeEvent *e)
-{
-    repaint();
-}
-*/

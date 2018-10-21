@@ -7,6 +7,7 @@ Algorithms::Algorithms()
 
 int Algorithms::getPositionRay(QPointF q, std::vector<QPointF> pol)
 {
+    double eps = 1.0e-10;
     int k = 0;
     int n = pol.size();
 
@@ -26,10 +27,6 @@ int Algorithms::getPositionRay(QPointF q, std::vector<QPointF> pol)
 
         //get the addition of distance between [xi, yi] and q, and [xiir, yiir] and q
         double dist_q = sqrt((xir*xir + yir*yir)) + sqrt((xiir*xiir + yiir*yiir));
-
-        double eps = 1.0e-10;
-
-        qDebug() << dist_i_ii <<" a " << dist_q << " je vzdalenost u polydonu " << i-1;
 
         if(fabs(dist_i_ii-dist_q) < eps)
         {
@@ -77,48 +74,36 @@ int Algorithms::getPositionWinding(QPointF q, std::vector<QPointF> pol)
 
         //compute angle
         double angle = getTwoVectorsAngle(q.x(), q.y(), xir, yir, q.x(), q.y(), xiir, yiir);
-        qDebug() << "angle is: " << angle;
 
         //if Q is in the left half plane
         if(getPointLinePosition(q.x(), q.y(), xir, yir, xiir, yiir) == 1)
         {
-            qDebug() << "adding angle";
-
             sum_angle += angle;
         }
         else if(getPointLinePosition(q.x(), q.y(), xir, yir, xiir, yiir) == 0)
         {
-            qDebug() << "subtracking angle";
             sum_angle -= angle;
-        }
-        else
-        {
-            qDebug() << "nothing added to the angle";
         }
 
         //assign coordinates
         xir = xiir;
         yir = yiir;
     }
-    qDebug() << "sum_angle is: " << sum_angle;
 
     //point is inside of the polygon
     if(fabs(sum_angle - 360) < eps)
     {
-        qDebug() << "returning 1 from winding" << (sum_angle-360);
         return 1;
     }
 
     //point is outside of the polygon
     else if(fabs(sum_angle) < eps)
     {
-        qDebug() << "returning 0 from winding";
         return 0;
     }
     //point is on the boundary of the polygon
     else
     {
-        qDebug() << "returning -1 from winding";
         return -1;
     }
 }
