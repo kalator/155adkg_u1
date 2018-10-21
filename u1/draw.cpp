@@ -11,10 +11,11 @@ void Draw::paintEvent(QPaintEvent *e)
     //Draw polygon and point, with this constructor, begin/end does not have to be called
     QPainter painter(this);
 
-    //set pen
+    //set pen for initial polygon drawing
     QPen pen(Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     painter.setPen(pen);
 
+    //draw polygons from file
     for(unsigned j = 0; j < poly_pol.size(); j++)
     {
         //Create polygon
@@ -33,9 +34,6 @@ void Draw::paintEvent(QPaintEvent *e)
         painter.drawPolygon(p);
     }
 
-    //Draw q
-    painter.drawEllipse(q.x()-5, q.y()-5, 10, 10);
-
     //fill polygon with color
     //set pen
     QPen pen_fill(Qt::red, 3, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -51,7 +49,7 @@ void Draw::paintEvent(QPaintEvent *e)
 
     for(unsigned i = 0; i < analysis_results.size(); i++)
     {
-        if(analysis_results[i])
+        if(analysis_results[i]) //if point is inside or on the boundary
         {
             std::vector<QPointF> pol_to_fill = poly_pol[i];
             for(unsigned l = 0; l < pol_to_fill.size(); l++)
@@ -64,6 +62,10 @@ void Draw::paintEvent(QPaintEvent *e)
             poly.clear();
         }
     }
+
+    //Draw q - at the end of method for preventing polygon filling to be drawn accross point q
+    painter.setPen(pen);
+    painter.drawEllipse(q.x()-5, q.y()-5, 10, 10);
 }
 
 void Draw::mousePressEvent(QMouseEvent *e)
@@ -82,17 +84,21 @@ void Draw::clearCanvas()
 {
     poly_pol.clear();
     pol.clear();
+
+    //reset point q placement
     q.setX(-5);
     q.setY(-5);
+
     analysis_results.clear();
     repaint();
 }
 
-bool Draw::loadPolygon(std::string &path, QString &msg, QSize canvas_size)
+bool Draw::loadPolygon(std::string &path, QString &msg)
 {
     std::ifstream poly_file;
     poly_file.open(path);
 
+    //check if poly_file is correctly open (or if it exists)
     if(!poly_file.is_open())
     {
         poly_file.close();
@@ -118,8 +124,10 @@ bool Draw::loadPolygon(std::string &path, QString &msg, QSize canvas_size)
     //declare vector for polygon points
     std::vector<QPointF> one_poly;
 
+    //go through file and load points into poly_pol (storing all polygons)
     while(poly_file.good() && no_of_poly--)
     {
+        //get number of points in one polygon
         poly_file >> no_of_points;
 
         //check for invalid polygons
@@ -127,9 +135,11 @@ bool Draw::loadPolygon(std::string &path, QString &msg, QSize canvas_size)
         {
             msg = "Polygon with less then  \r\n3 vertices detected!";
             poly_file.close();
+            poly_pol.clear(); //clear points that were added so far
             return 0;
         }
 
+        //go through points of one polygon, save it into one_poly
         while(no_of_points--)
         {
             QPointF bod;
@@ -147,6 +157,7 @@ bool Draw::loadPolygon(std::string &path, QString &msg, QSize canvas_size)
 
     poly_file.close();
 
+    msg = "Success!";
     return 1;
 }
 
@@ -157,6 +168,7 @@ std::vector<QPointF> Draw::getPol(int pol)
 
 void Draw::fillPolygon(std::vector<int> analysis_results)
 {
+    //fill polygons containing point q with colour
     this->analysis_results = analysis_results;
     repaint();
 }

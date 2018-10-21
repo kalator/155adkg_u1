@@ -27,7 +27,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="load_button">
        <property name="text">
         <string>Load polygon</string>
        </property>
@@ -136,7 +136,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="analyze_button">
        <property name="text">
         <string>Analyze</string>
        </property>
@@ -176,7 +176,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="clear_button">
        <property name="text">
         <string>Clear</string>
        </property>

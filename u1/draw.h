@@ -29,7 +29,7 @@ public:
     void mousePressEvent(QMouseEvent *e);
     void fillPolygon(std::vector<int> analysis_results);
     void clearCanvas();
-    bool loadPolygon(std::string &path, QString &msg, QSize canvas_size);
+    bool loadPolygon(std::string &path, QString &msg);
     QPointF getQ() {return q;}
     std::vector<QPointF> getPol(int pol);
     int getNumberOfPolygons() {return poly_pol.size();}

@@ -16,8 +16,6 @@ int Algorithms::getPositionRay(QPointF q, std::vector<QPointF> pol)
 
     for(int i=1; i < n+1; i++)
     {
-
-
         //reduce coordinates
         double xiir = pol[i%n].x() - q.x();
         double yiir = pol[i%n].y() - q.y();
@@ -33,8 +31,6 @@ int Algorithms::getPositionRay(QPointF q, std::vector<QPointF> pol)
             return -1;
         }
 
-
-
         //upper halfplane
         if((yiir>0) && (yir<=0) || (yir>0) && (yiir<=0))
         {
@@ -48,7 +44,6 @@ int Algorithms::getPositionRay(QPointF q, std::vector<QPointF> pol)
 
         xir = xiir;
         yir = yiir;
-
     }
 
     //0 - point is outside
@@ -101,6 +96,7 @@ int Algorithms::getPositionWinding(QPointF q, std::vector<QPointF> pol)
     {
         return 0;
     }
+
     //point is on the boundary of the polygon
     else
     {

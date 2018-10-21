@@ -1,6 +1,9 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#include "ui_widget.h"
+#include "algorithms.h"
+
 #include <QWidget>
 #include <QFileDialog>
 #include <QDebug>
@@ -20,11 +23,11 @@ public:
     void analysisResult(int result, bool &write_result);
 
 private slots:
-    void on_pushButton_3_clicked();
+    void on_clear_button_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_analyze_button_clicked();
 
-    void on_pushButton_4_clicked();
+    void on_load_button_clicked();
 
     void on_set_coords_button_clicked();
 
