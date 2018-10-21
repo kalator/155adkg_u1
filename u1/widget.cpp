@@ -20,7 +20,6 @@ void Widget::on_clear_button_clicked()
 
 void Widget::on_analyze_button_clicked()
 {
-    qDebug() << "Analyze!";
     QPointF q = ui->canvas->getQ();
 
     //get polygons one by one

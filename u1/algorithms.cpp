@@ -7,8 +7,8 @@ Algorithms::Algorithms()
 
 int Algorithms::getPositionRay(QPointF q, std::vector<QPointF> pol)
 {
-    double eps = 1.0e-10;
-    int k = 0;
+    double eps = 1.0e-10; //estimate of machine epsilon
+    int k = 0; //for result of the analysis
     int n = pol.size();
 
     double xir = pol[0].x() - q.x();
@@ -32,7 +32,7 @@ int Algorithms::getPositionRay(QPointF q, std::vector<QPointF> pol)
         }
 
         //upper halfplane
-        if((yiir>0) && (yir<=0) || (yir>0) && (yiir<=0))
+        if(((yiir>0) && (yir<=0)) || ((yir>0) && (yiir<=0)))
         {
             //right halfplane
             double xm = (xiir*yir - xir*yiir)/(yiir-yir);
@@ -106,7 +106,7 @@ int Algorithms::getPositionWinding(QPointF q, std::vector<QPointF> pol)
 
 int Algorithms::getPointLinePosition(double x, double y, double x1, double y1, double x2, double y2)
 {
-    double eps = 1.0e-10; //zapis v semilogaritmickem tvaru - zachovana presnost v aritmetickych operacich
+    double eps = 1.0e-10;
 
     //get vectors
     double ux = x2 - x1;
@@ -143,6 +143,5 @@ double Algorithms::getTwoVectorsAngle(double x1, double y1, double x2, double y2
     double nv = sqrt(vx*vx + vy*vy);
 
     return acos(dot/(nu*nv))*180/M_PI;
-
 }
 

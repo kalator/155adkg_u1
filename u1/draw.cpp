@@ -2,13 +2,16 @@
 
 Draw::Draw(QWidget *parent) : QWidget(parent)
 {
+    //set initial possition of point q
     q.setX(-5);
     q.setY(-5);
 }
 
 void Draw::paintEvent(QPaintEvent *e)
 {
-    //Draw polygon and point, with this constructor, begin/end does not have to be called
+    //Draw polygons and point, highlight polygons that contain point
+
+    //with this constructor, begin/end does not have to be called
     QPainter painter(this);
 
     //set pen for initial polygon drawing
@@ -75,15 +78,16 @@ void Draw::mousePressEvent(QMouseEvent *e)
 
 void Draw::setPointCoords(double x, double y)
 {
+    //set possition of point q
     q.setX(x);
     q.setY(y);
+
     repaint();
 }
 
 void Draw::clearCanvas()
 {
     poly_pol.clear();
-    pol.clear();
 
     //reset point q placement
     q.setX(-5);
@@ -151,7 +155,7 @@ bool Draw::loadPolygon(std::string &path, QString &msg)
             one_poly.push_back(bod);
         }
 
-        poly_pol.push_back(one_poly);
+        poly_pol.push_back(one_poly); //save new polygon to poly_pol
         one_poly.clear();
     }
 
@@ -161,9 +165,9 @@ bool Draw::loadPolygon(std::string &path, QString &msg)
     return 1;
 }
 
-std::vector<QPointF> Draw::getPol(int pol)
+std::vector<QPointF> Draw::getPol(int index)
 {
-    return poly_pol[pol];
+    return poly_pol[index];
 }
 
 void Draw::fillPolygon(std::vector<int> analysis_results)

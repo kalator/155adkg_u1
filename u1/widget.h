@@ -6,7 +6,6 @@
 
 #include <QWidget>
 #include <QFileDialog>
-#include <QDebug>
 #include <string>
 
 namespace Ui {
