@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.7
+** Created by: Qt User Interface Compiler version 5.11.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,18 +10,15 @@
 #define UI_WIDGET_H
 
 #include <QtCore/QVariant>
-#include <QtGui/QAction>
-#include <QtGui/QApplication>
-#include <QtGui/QButtonGroup>
-#include <QtGui/QComboBox>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QHeaderView>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
-#include <QtGui/QSpacerItem>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QWidget>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QWidget>
 #include "draw.h"
 
 QT_BEGIN_NAMESPACE
@@ -54,14 +51,14 @@ public:
     void setupUi(QWidget *Widget)
     {
         if (Widget->objectName().isEmpty())
-            Widget->setObjectName(QString::fromUtf8("Widget"));
+            Widget->setObjectName(QStringLiteral("Widget"));
         Widget->resize(942, 596);
         horizontalLayout = new QHBoxLayout(Widget);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         canvas = new Draw(Widget);
-        canvas->setObjectName(QString::fromUtf8("canvas"));
+        canvas->setObjectName(QStringLiteral("canvas"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(1);
         sizePolicy.setVerticalStretch(1);
@@ -72,14 +69,14 @@ public:
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         load_button = new QPushButton(Widget);
-        load_button->setObjectName(QString::fromUtf8("load_button"));
+        load_button->setObjectName(QStringLiteral("load_button"));
 
         verticalLayout->addWidget(load_button);
 
         loaded = new QLabel(Widget);
-        loaded->setObjectName(QString::fromUtf8("loaded"));
+        loaded->setObjectName(QStringLiteral("loaded"));
 
         verticalLayout->addWidget(loaded);
 
@@ -88,12 +85,14 @@ public:
         verticalLayout->addItem(verticalSpacer);
 
         label = new QLabel(Widget);
-        label->setObjectName(QString::fromUtf8("label"));
+        label->setObjectName(QStringLiteral("label"));
 
         verticalLayout->addWidget(label);
 
         comboBox = new QComboBox(Widget);
-        comboBox->setObjectName(QString::fromUtf8("comboBox"));
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->setObjectName(QStringLiteral("comboBox"));
 
         verticalLayout->addWidget(comboBox);
 
@@ -102,27 +101,27 @@ public:
         verticalLayout->addItem(verticalSpacer_5);
 
         label_2 = new QLabel(Widget);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
+        label_2->setObjectName(QStringLiteral("label_2"));
 
         verticalLayout->addWidget(label_2);
 
         set_x = new QLineEdit(Widget);
-        set_x->setObjectName(QString::fromUtf8("set_x"));
+        set_x->setObjectName(QStringLiteral("set_x"));
 
         verticalLayout->addWidget(set_x);
 
         label_3 = new QLabel(Widget);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
+        label_3->setObjectName(QStringLiteral("label_3"));
 
         verticalLayout->addWidget(label_3);
 
         set_y = new QLineEdit(Widget);
-        set_y->setObjectName(QString::fromUtf8("set_y"));
+        set_y->setObjectName(QStringLiteral("set_y"));
 
         verticalLayout->addWidget(set_y);
 
         set_coords_button = new QPushButton(Widget);
-        set_coords_button->setObjectName(QString::fromUtf8("set_coords_button"));
+        set_coords_button->setObjectName(QStringLiteral("set_coords_button"));
 
         verticalLayout->addWidget(set_coords_button);
 
@@ -131,12 +130,12 @@ public:
         verticalLayout->addItem(verticalSpacer_2);
 
         analyze_button = new QPushButton(Widget);
-        analyze_button->setObjectName(QString::fromUtf8("analyze_button"));
+        analyze_button->setObjectName(QStringLiteral("analyze_button"));
 
         verticalLayout->addWidget(analyze_button);
 
         result = new QLabel(Widget);
-        result->setObjectName(QString::fromUtf8("result"));
+        result->setObjectName(QStringLiteral("result"));
 
         verticalLayout->addWidget(result);
 
@@ -149,7 +148,7 @@ public:
         verticalLayout->addItem(verticalSpacer_3);
 
         clear_button = new QPushButton(Widget);
-        clear_button->setObjectName(QString::fromUtf8("clear_button"));
+        clear_button->setObjectName(QStringLiteral("clear_button"));
 
         verticalLayout->addWidget(clear_button);
 
@@ -168,23 +167,21 @@ public:
 
     void retranslateUi(QWidget *Widget)
     {
-        Widget->setWindowTitle(QApplication::translate("Widget", "Point in polygon", 0, QApplication::UnicodeUTF8));
-        load_button->setText(QApplication::translate("Widget", "Load polygon", 0, QApplication::UnicodeUTF8));
+        Widget->setWindowTitle(QApplication::translate("Widget", "Point in polygon", nullptr));
+        load_button->setText(QApplication::translate("Widget", "Load polygon", nullptr));
         loaded->setText(QString());
-        label->setText(QApplication::translate("Widget", "Method", 0, QApplication::UnicodeUTF8));
-        comboBox->clear();
-        comboBox->insertItems(0, QStringList()
-         << QApplication::translate("Widget", "Winding Number", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("Widget", "Ray Crossing", 0, QApplication::UnicodeUTF8)
-        );
-        label_2->setText(QApplication::translate("Widget", "set X", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("Widget", "Method", nullptr));
+        comboBox->setItemText(0, QApplication::translate("Widget", "Winding Number", nullptr));
+        comboBox->setItemText(1, QApplication::translate("Widget", "Ray Crossing", nullptr));
+
+        label_2->setText(QApplication::translate("Widget", "set X", nullptr));
         set_x->setText(QString());
-        label_3->setText(QApplication::translate("Widget", "set Y", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("Widget", "set Y", nullptr));
         set_y->setText(QString());
-        set_coords_button->setText(QApplication::translate("Widget", "Set coords of point", 0, QApplication::UnicodeUTF8));
-        analyze_button->setText(QApplication::translate("Widget", "Analyze", 0, QApplication::UnicodeUTF8));
+        set_coords_button->setText(QApplication::translate("Widget", "Set coords of point", nullptr));
+        analyze_button->setText(QApplication::translate("Widget", "Analyze", nullptr));
         result->setText(QString());
-        clear_button->setText(QApplication::translate("Widget", "Clear", 0, QApplication::UnicodeUTF8));
+        clear_button->setText(QApplication::translate("Widget", "Clear", nullptr));
     } // retranslateUi
 
 };
